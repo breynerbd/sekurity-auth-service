@@ -57,3 +57,15 @@ C:\PruebasEntrega\KinRural\sekurity-auth-service\src\AuthService.Domain\obj\Debu
 C:\PruebasEntrega\KinRural\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\refint\AuthService.Domain.dll
 C:\PruebasEntrega\KinRural\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.pdb
 C:\PruebasEntrega\KinRural\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\ref\AuthService.Domain.dll
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\bin\Debug\net8.0\AuthService.Domain.deps.json
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\bin\Debug\net8.0\AuthService.Domain.dll
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\bin\Debug\net8.0\AuthService.Domain.pdb
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.AssemblyInfoInputs.cache
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.AssemblyInfo.cs
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.csproj.CoreCompileInputs.cache
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.sourcelink.json
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.dll
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\refint\AuthService.Domain.dll
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.pdb
+C:\2021382\Sekurity\sekurity-auth-service\src\AuthService.Domain\obj\Debug\net8.0\ref\AuthService.Domain.dll

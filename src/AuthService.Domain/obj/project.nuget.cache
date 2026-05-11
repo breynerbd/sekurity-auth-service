@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "nr5RbnAuRZU=",
+  "dgSpecHash": "fz/OaWSFC8Q=",
   "success": true,
-  "projectFilePath": "C:\\PruebasEntrega\\KinRural\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj",
+  "projectFilePath": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\hogar\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+    "C:\\Users\\Informatica\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }

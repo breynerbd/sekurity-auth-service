@@ -45,7 +45,7 @@ public static class DataSeeder
                 Name = "Admin",
                 Surname = "User",
                 Username = "admin",
-                Email = "admin@ksports.local",
+                Email = "admin@sekuri.com",
                 Password = BCrypt.Net.BCrypt.HashPassword("12345678"),
                 Status = true,
                 CreatedAt = DateTime.UtcNow,

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace AuthService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
