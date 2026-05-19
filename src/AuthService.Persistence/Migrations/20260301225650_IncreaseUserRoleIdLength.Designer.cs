@@ -28,8 +28,8 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.Role", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
@@ -55,7 +55,7 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("id");
 
@@ -86,7 +86,7 @@ namespace AuthService.Persistence.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("surname");
 
@@ -117,7 +117,7 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.UserEmail", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("id");
 
@@ -136,7 +136,7 @@ namespace AuthService.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("user_id");
 
@@ -151,7 +151,7 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.UserPasswordReset", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("id");
 
@@ -165,7 +165,7 @@ namespace AuthService.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("user_id");
 
@@ -180,7 +180,7 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.UserProfile", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("id");
 
@@ -198,7 +198,7 @@ namespace AuthService.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("user_id");
 
@@ -213,7 +213,7 @@ namespace AuthService.Persistence.Migrations
             modelBuilder.Entity("AuthService.Domain.Entitis.UserRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(16)
+                        .HasMaxLength(36)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("id");
 

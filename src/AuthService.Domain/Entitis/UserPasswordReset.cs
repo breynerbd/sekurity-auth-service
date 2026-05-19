@@ -5,11 +5,11 @@ namespace AuthService.Domain.Entitis;
 public class UserPasswordReset
 {
     [Key]
-    [MaxLength(16)]
+    [MaxLength(36)]
     public string Id { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(16)]
+    [MaxLength(36)]
     public string UserId { get; set; } = string.Empty;
 
     public string? PasswordResetToken { get; set; }

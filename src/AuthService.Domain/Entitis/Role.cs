@@ -5,7 +5,7 @@ namespace AuthService.Domain.Entitis;
 public class Role
 {
     [Key]
-    [MaxLength(16)]
+    [MaxLength(36)]
     public string Id { get; set; } = null!;
 
     [Required]
