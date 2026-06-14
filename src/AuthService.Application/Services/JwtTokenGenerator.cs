@@ -21,8 +21,9 @@ namespace AuthService.Application.Services
         public string GenerateToken(User user, IList<string> roles)
         {
             // 1️⃣ Generar la clave simétrica a partir de la configuración
+            // Se agrega ?? string.Empty para solucionar la advertencia CS8604 de la consola
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty)
             );
 
             var credentials = new SigningCredentials(
@@ -30,19 +31,19 @@ namespace AuthService.Application.Services
                 SecurityAlgorithms.HmacSha256
             );
 
-            // 2️⃣ Definir los claims del token
+            // 2️⃣ Definir los claims del token usando nombres cortos estándar para el Frontend
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),  // ID del usuario
+                new Claim("id", user.Id),                            // ✅ En vez de ClaimTypes.NameIdentifier
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Username)       // Nombre de usuario
+                new Claim("username", user.Username)                  // ✅ En vez de ClaimTypes.Name
             };
 
-            // Agregar roles como claims
+            // Agregar roles como claims con nombre corto
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim("role", role));                  // ✅ En vez de ClaimTypes.Role
             }
 
             // 3️⃣ Crear el token JWT

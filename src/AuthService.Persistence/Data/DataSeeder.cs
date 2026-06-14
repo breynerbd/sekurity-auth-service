@@ -1,4 +1,5 @@
 using AuthService.Domain.Entitis;
+using AuthService.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 
@@ -8,44 +9,51 @@ public static class DataSeeder
 {
     public static async Task SeedAsync(ApplicationDbContext context)
     {
-        // 1️⃣ Seed Roles
+        // 1️⃣ Seed de los 3 Roles Obligatorios
         if (!await context.Roles.AnyAsync())
         {
+            var masterAdminRole = new Role
+            {
+                Id = Guid.NewGuid().ToString("N")[..16],
+                Name = RoleConstants.MASTER_ADMIN,
+                Description = "Master administrator role"
+            };
+
             var adminRole = new Role
             {
                 Id = Guid.NewGuid().ToString("N")[..16],
-                Name = "ADMIN",
+                Name = RoleConstants.ADMIN_ROL,
                 Description = "Administrator role"
             };
 
             var userRole = new Role
             {
                 Id = Guid.NewGuid().ToString("N")[..16],
-                Name = "USER",
+                Name = RoleConstants.USER_ROL,
                 Description = "Standard user role"
             };
 
-            await context.Roles.AddRangeAsync(adminRole, userRole);
+            await context.Roles.AddRangeAsync(masterAdminRole, adminRole, userRole);
             await context.SaveChangesAsync();
         }
 
-        // 2️⃣ Seed Admin User
+        // 2️⃣ Seed del Usuario ROOT (Master Admin)
         if (!await context.Users.AnyAsync())
         {
-            var adminRole = await context.Roles
-                .FirstOrDefaultAsync(r => r.Name == "ADMIN");
+            var masterAdminRole = await context.Roles
+                .FirstOrDefaultAsync(r => r.Name == RoleConstants.MASTER_ADMIN);
 
-            if (adminRole == null) return;
+            if (masterAdminRole == null) return;
 
             var userId = Guid.NewGuid().ToString("N")[..16];
 
-            var adminUser = new User
+            var masterAdminUser = new User
             {
                 Id = userId,
-                Name = "Admin",
-                Surname = "User",
-                Username = "admin",
-                Email = "admin@sekuri.com",
+                Name = "Master",
+                Surname = "Admin",
+                Username = "masteradmin",
+                Email = "master@sekurity.com",
                 Password = BCrypt.Net.BCrypt.HashPassword("12345678"),
                 Status = true,
                 CreatedAt = DateTime.UtcNow,
@@ -70,12 +78,12 @@ public static class DataSeeder
                     {
                         Id = Guid.NewGuid().ToString("N")[..16],
                         UserId = userId,
-                        RoleId = adminRole.Id
+                        RoleId = masterAdminRole.Id
                     }
                 }
             };
 
-            await context.Users.AddAsync(adminUser);
+            await context.Users.AddAsync(masterAdminUser);
             await context.SaveChangesAsync();
         }
     }

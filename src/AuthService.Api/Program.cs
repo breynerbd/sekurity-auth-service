@@ -91,6 +91,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Autorización
 builder.Services.AddAuthorization();
 
+// CONFIGURACIÓN DE CORS MODIFICADA (Opción B)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -98,7 +99,8 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:5173", "http://localhost:5174")
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // ✅ Permite el envío seguro de credenciales/cookies desde el frontend
         });
 });
 
@@ -113,7 +115,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// ⚠️ Se comenta temporalmente para evitar problemas de redirección forzada a HTTPS en local
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
 

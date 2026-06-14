@@ -6,24 +6,28 @@ public class RegisterRequest
 {
     [Required]
     [MaxLength(50)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(50)]
-    public string Surname { get; set; }
+    public string Surname { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(50)]
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
     [Required]
     [EmailAddress]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     [MaxLength(20)]
-    public string Phone { get; set; }
+    public string Phone { get; set; } = string.Empty;
 
     [Required]
     [MinLength(8)]
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
+
+    // ✅ Agregamos el campo Role requerido para que compile el AuthController
+    [Required]
+    public string Role { get; set; } = string.Empty;
 }
