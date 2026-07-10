@@ -97,10 +97,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173", "http://localhost:5174")
+            policy.WithOrigins(
+                    "http://localhost:5173",
+                    "http://localhost:5174",
+                    "http://localhost:8081",      // ← Expo web (client-user)
+                    "http://192.168.1.5:8081"      // ← por si accedes por IP LAN en vez de localhost
+                  )
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowCredentials(); // ✅ Permite el envío seguro de credenciales/cookies desde el frontend
+                  .AllowCredentials();
         });
 });
 
