@@ -22,20 +22,23 @@ public class AuthController : ControllerBase
     private readonly IRoleRepository _roleRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IAuthService _authService;
+    private readonly IHttpClientFactory _httpClientFactory;   // ← NUEVO
 
     public AuthController(
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IAuthService authService)
+        IAuthService authService,
+        IHttpClientFactory httpClientFactory)                 // ← NUEVO
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _authService = authService;
+        _httpClientFactory = httpClientFactory;                // ← NUEVO
     }
 
-    [HttpPost("register")]
+[HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         if (await _userRepository.ExistsByEmailAsync(request.Email))
@@ -79,9 +82,26 @@ public class AuthController : ControllerBase
 
         await _userRepository.UpdateUserRoleAsync(user.Id, userRole.Id);
 
+        // Sincroniza el usuario recién creado hacia server-admin
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+await client.PostAsJsonAsync("http://localhost:3005/sekurity/v1/internals/sync-user", new
+            {
+                auth_id = user.Id,
+                nombre = user.Name,
+                apellido = user.Surname,
+                correo = user.Email,
+                telefono = (string?)null
+            });
+        }
+        catch
+        {
+            // No rompemos el registro si server-admin está caído
+        }
+
         return Ok(new { Message = "Usuario registrado exitosamente con el rol: " + roleName });
     }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {

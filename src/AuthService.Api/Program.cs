@@ -65,6 +65,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 
+builder.Services.AddHttpClient();   // ← NUEVO, necesario para el IHttpClientFactory del AuthController
+
 // JWT Token Generator
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
