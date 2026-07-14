@@ -3061,19 +3061,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gamer\\.nuget\\packages\\": {}
+    "C:\\Users\\hogar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\AuthService.Persistence.csproj",
+      "projectUniqueName": "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\AuthService.Persistence.csproj",
       "projectName": "AuthService.Persistence",
-      "projectPath": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\AuthService.Persistence.csproj",
-      "packagesPath": "C:\\Users\\Gamer\\.nuget\\packages\\",
-      "outputPath": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\obj\\",
+      "projectPath": "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\AuthService.Persistence.csproj",
+      "packagesPath": "C:\\Users\\hogar\\.nuget\\packages\\",
+      "outputPath": "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gamer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\hogar\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3085,11 +3085,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Application\\AuthService.Application.csproj": {
-              "projectPath": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Application\\AuthService.Application.csproj"
+            "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Application\\AuthService.Application.csproj": {
+              "projectPath": "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Application\\AuthService.Application.csproj"
             },
-            "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj": {
-              "projectPath": "C:\\2021382\\Sekurity\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj"
+            "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj": {
+              "projectPath": "C:\\2021497\\sekurity\\sekurity-auth-service\\src\\AuthService.Domain\\AuthService.Domain.csproj"
             }
           }
         }
@@ -3144,7 +3144,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.422/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

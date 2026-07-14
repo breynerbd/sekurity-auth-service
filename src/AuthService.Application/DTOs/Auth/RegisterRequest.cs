@@ -26,8 +26,4 @@ public class RegisterRequest
     [Required]
     [MinLength(8)]
     public string Password { get; set; } = string.Empty;
-
-    // ✅ Agregamos el campo Role requerido para que compile el AuthController
-    [Required]
-    public string Role { get; set; } = string.Empty;
 }

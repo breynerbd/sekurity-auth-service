@@ -11,6 +11,8 @@ using AuthService.Application.DTOs;
 using AuthService.Application.DTOs.Email;
 using AuthService.Application.Interfaces;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Text.Json;
+using System.Text;
 
 namespace AuthService.Api.Controllers;
 
@@ -22,31 +24,34 @@ public class AuthController : ControllerBase
     private readonly IRoleRepository _roleRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IAuthService _authService;
-    private readonly IHttpClientFactory _httpClientFactory;   // ← NUEVO
 
     public AuthController(
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IAuthService authService,
-        IHttpClientFactory httpClientFactory)                 // ← NUEVO
+        IAuthService authService)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _authService = authService;
-        _httpClientFactory = httpClientFactory;                // ← NUEVO
     }
 
-[HttpPost("register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         if (await _userRepository.ExistsByEmailAsync(request.Email))
-            return BadRequest(new { Message = "El correo electrónico ya existe." });
+            return BadRequest("Email already exists");
 
         var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
+
         if (existingUser != null)
-            return BadRequest(new { Message = "El nombre de usuario ya está en uso." });
+        {
+            return BadRequest(new
+            {
+                Message = "El nombre de usuario ya está en uso."
+            });
+        }
 
         var user = new User
         {
@@ -56,6 +61,7 @@ public class AuthController : ControllerBase
             Username = request.Username,
             Email = request.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            Phone = request.Phone,
             Status = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -63,45 +69,48 @@ public class AuthController : ControllerBase
 
         await _userRepository.CreateAsync(user);
 
-        // ==========================================
-        // ASIGNACIÓN Y VALIDACIÓN DE ROL DINÁMICO
-        // ==========================================
-        var roleName = string.IsNullOrWhiteSpace(request.Role)
-            ? RoleConstants.USER_ROL
-            : request.Role.ToUpper();
-
-        if (!RoleConstants.AllowedRoles.Contains(roleName))
-            return BadRequest(new { message = "Rol inválido." });
-
-        if (roleName == RoleConstants.MASTER_ADMIN)
-            return BadRequest(new { message = "No puedes asignar el rol MASTER_ADMIN mediante registro público." });
-
-        var userRole = await _roleRepository.GetByNameAsync(roleName);
-        if (userRole == null)
-            return BadRequest(new { message = "El rol solicitado no existe en el sistema." });
+        var userRole = await _roleRepository.GetByNameAsync("USER");
 
         await _userRepository.UpdateUserRoleAsync(user.Id, userRole.Id);
 
-        // Sincroniza el usuario recién creado hacia server-admin
-        try
-        {
-            var client = _httpClientFactory.CreateClient();
-await client.PostAsJsonAsync("http://localhost:3005/sekurity/v1/internals/sync-user", new
-            {
-                auth_id = user.Id,
-                nombre = user.Name,
-                apellido = user.Surname,
-                correo = user.Email,
-                telefono = (string?)null
-            });
-        }
-        catch
-        {
-            // No rompemos el registro si server-admin está caído
-        }
+        using var httpClient = new HttpClient();
 
-        return Ok(new { Message = "Usuario registrado exitosamente con el rol: " + roleName });
+        var payload = new
+        {
+            auth_id = user.Id,
+            name = user.Name,
+            surname = user.Surname,
+            username = user.Username,
+            email = user.Email,
+            password = request.Password,
+            phone = user.Phone
+        };
+
+        var json = JsonSerializer.Serialize(payload);
+
+        var content = new StringContent(
+            json,
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        await httpClient.PostAsync(
+            "http://localhost:3005/sekurity/v1/internals/sync-user",
+            content
+        );
+
+        return Ok(new
+        {
+            success = true,
+            user = new
+            {
+                id = user.Id,
+                email = user.Email,
+                username = user.Username
+            }
+        });
     }
+
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {

@@ -29,6 +29,10 @@ public class User
     public string Password { get; set; } = string.Empty;
 
     [Required]
+    [Phone]
+    public string Phone { get; set; } = string.Empty;
+
+    [Required]
     public bool Status { get; set; } = true;
 
     [Required]
@@ -37,7 +41,6 @@ public class User
     [Required]
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-    // 🔥 RELACIONES
     public UserProfile? UserProfile { get; set; }
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public UserEmail? UserEmail { get; set; }
