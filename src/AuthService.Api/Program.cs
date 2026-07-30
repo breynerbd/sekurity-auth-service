@@ -93,18 +93,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Autorización
 builder.Services.AddAuthorization();
 
-// CONFIGURACIÓN DE CORS MODIFICADA (Opción B)
+// CONFIGURACIÓN DE CORS
+var allowedOrigins = builder.Configuration.GetSection("Security:AllowedOrigins").Get<string[]>();
+
+if (allowedOrigins == null || allowedOrigins.Length == 0)
+{
+    allowedOrigins = new[]
+    {
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:8081"
+    };
+}
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins(
-                    "http://localhost:5173",
-                    "http://localhost:5174",
-                    "http://localhost:8081",      // ← Expo web (client-user)
-                    "http://192.168.1.5:8081"      // ← por si accedes por IP LAN en vez de localhost
-                  )
+            policy.WithOrigins(allowedOrigins)
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
