@@ -116,14 +116,8 @@ var app = builder.Build();
 // ----------------------
 // Middleware
 // ----------------------
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-// ⚠️ Se comenta temporalmente para evitar problemas de redirección forzada a HTTPS en local
-// app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowFrontend");
 
