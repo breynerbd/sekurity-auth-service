@@ -24,17 +24,23 @@ public class AuthController : ControllerBase
     private readonly IRoleRepository _roleRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IAuthService _authService;
+    private readonly IConfiguration _configuration;
+    private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IAuthService authService)
+        IAuthService authService,
+        IConfiguration configuration,
+        ILogger<AuthController> logger)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _authService = authService;
+        _configuration = configuration;
+        _logger = logger;
     }
 
     [HttpPost("register")]
@@ -73,31 +79,48 @@ public class AuthController : ControllerBase
 
         await _userRepository.UpdateUserRoleAsync(user.Id, userRole.Id);
 
-        using var httpClient = new HttpClient();
+        var serverAdminUrl = _configuration["AppSettings:ServerAdminUrl"] ?? "http://localhost:3005";
 
-        var payload = new
+        try
         {
-            auth_id = user.Id,
-            name = user.Name,
-            surname = user.Surname,
-            username = user.Username,
-            email = user.Email,
-            password = request.Password,
-            phone = user.Phone
-        };
+            using var httpClient = new HttpClient();
 
-        var json = JsonSerializer.Serialize(payload);
+            var payload = new
+            {
+                auth_id = user.Id,
+                name = user.Name,
+                surname = user.Surname,
+                username = user.Username,
+                email = user.Email,
+                password = request.Password,
+                phone = user.Phone
+            };
 
-        var content = new StringContent(
-            json,
-            Encoding.UTF8,
-            "application/json"
-        );
+            var json = JsonSerializer.Serialize(payload);
 
-        await httpClient.PostAsync(
-            "http://localhost:3005/sekurity/v1/internals/sync-user",
-            content
-        );
+            var content = new StringContent(
+                json,
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var syncResponse = await httpClient.PostAsync(
+                $"{serverAdminUrl}/sekurity/v1/internals/sync-user",
+                content
+            );
+
+            if (!syncResponse.IsSuccessStatusCode)
+            {
+                _logger.LogWarning(
+                    "No se pudo sincronizar el usuario {UserId} con server-admin. Status: {Status}",
+                    user.Id, syncResponse.StatusCode);
+            }
+        }
+        catch (Exception ex)
+        {
+            // No queremos que un fallo de sincronización rompa el registro del usuario.
+            _logger.LogError(ex, "Error sincronizando usuario {UserId} con server-admin", user.Id);
+        }
 
         return Ok(new
         {
